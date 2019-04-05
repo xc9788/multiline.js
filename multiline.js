@@ -18,7 +18,6 @@
       key = key.trim();
       if (!key) {
         throw new Error('error');
-        var tag = tags[i]
       }
 
       var subKeyArr = key.split('.');
