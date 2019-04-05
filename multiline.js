@@ -7,8 +7,6 @@
 
   var multiline = function(multilineTagID, args) {
     var html = document.getElementById('multiline-p').innerHTML;
-    console.log(html)  
-
     html = html.trim();
 
     var regexpVariable = /{{([\s\S]*?)}}/g;
@@ -28,7 +26,6 @@
         throw new Error('error');
       }
 
-      console.log(subKeyArr)
       if (subKeyArr.length == 1) {
         if (!(subKeyArr[0] in args)) {
           throw new Error('error');
@@ -40,9 +37,10 @@
       return args[subKeyArr[0]][subKeyArr[1]]
     });
   };
-	if(typeof window == 'object'){
-		window.multiline = multiline;
-	}else{
-		module.exports = multiline;
-	}
+
+  if (typeof window == 'object') {
+    window.multiline = multiline;
+  } else {
+    module.exports = multiline;
+  }
 })();
