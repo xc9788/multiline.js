@@ -6,7 +6,7 @@
   document.head.appendChild(style);
 
   var multiline = function(multilineTagID, args) {
-    var html = document.getElementById('multiline-p').innerHTML;
+    var html = document.getElementById(multilineTagID).innerHTML;
     html = html.trim();
 
     var regexpVariable = /{{([\s\S]*?)}}/g;
