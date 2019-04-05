@@ -1,43 +1,45 @@
-/**
- * [multiline.js]
- * @author      lsong
- * @homepage    https://lsong.org
- * @github      https://github.com/song940/multiline.js
- */
+'use strict';
 ;(function(exports, undefined){
+  var style = document.createElement('style');
+  var code = document.createTextNode('multiline{display:none}');
+  style.appendChild(code);
+  document.head.appendChild(style);
 
-  /**
-   * [multiline]
-   * @param  {[function]} func [function(){//}]
-   * @param  {[object]}   args [{ name: 'lsong' }}]
-   * @return {[string]}   str
-   */
-  var multiline = function(func,args){
-    if(!(typeof func === 'function')){
-      throw new Error('The arguments must passed and they be a function .');
-    }
-    var funcStr = func.toString();
-    var regexpComment = /\/\*([\s\S]*?)\*\//;
-    var regexpVariable = /#{([\s\S]*?)}/g;
-    if(!regexpComment.test(funcStr)){
-      throw new Error("Comment not found.");
-    }
-    var match = regexpComment.exec(funcStr);
-    var str = match[1];
-    if(regexpVariable.test(str) && !args){
+  var multiline = function(multilineTagID, args) {
+    var html = document.getElementById('multiline-p').innerHTML;
+    console.log(html)  
+
+    html = html.trim();
+
+    var regexpVariable = /{{([\s\S]*?)}}/g;
+    if(regexpVariable.test(html) && !args){
       throw new Error('args not passed .');
     }
-    return str.replace(regexpVariable, function(match, key, index, str){
+    
+    return html.replace(regexpVariable, function(m, key, i, html){
       key = key.trim();
-      if(!(key in args)){
-        throw new Error(key + ' is not passed from arguments.', key);
-        return '';
-      }else{
+      if (!key) {
+        throw new Error('error');
+        var tag = tags[i]
+      }
+
+      var subKeyArr = key.split('.');
+      if (subKeyArr.length > 2) {
+        throw new Error('error');
+      }
+
+      console.log(subKeyArr)
+      if (subKeyArr.length == 1) {
+        if (!(subKeyArr[0] in args)) {
+          throw new Error('error');
+        }
+
         return args[key];
       }
+
+      return args[subKeyArr[0]][subKeyArr[1]]
     });
   };
-  //exports.
 	if(typeof window == 'object'){
 		window.multiline = multiline;
 	}else{
